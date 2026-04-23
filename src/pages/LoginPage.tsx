@@ -23,7 +23,7 @@ export function LoginPage() {
             >
               <h2 className="text-4xl font-display font-bold mb-4">Invest in the Heart of Africa</h2>
               <p className="text-lg text-white/80 max-w-md">
-                Join ArdhiHaven to track your favorite plots and connect with verified land agents across Kenya.
+                Join ArDhiflex to track your favorite plots and connect with verified land agents across Kenya.
               </p>
             </motion.div>
           </div>
@@ -37,7 +37,7 @@ export function LoginPage() {
                   <MapPin className="h-6 w-6 text-white" />
                 </div>
                 <span className="text-2xl font-display font-bold tracking-tight">
-                  Ardhi<span className="text-[#D4A373]">Haven</span>
+                  ArDhi<span className="text-[#D4A373]">flex</span>
                 </span>
               </Link>
               <h1 className="text-3xl font-display font-bold text-foreground">Welcome Back</h1>

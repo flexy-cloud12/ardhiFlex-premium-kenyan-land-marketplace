@@ -72,7 +72,7 @@ export function PropertyDetailPage() {
         <div className="relative">
           <div className="h-16 w-16 rounded-full border-4 border-[#1B4332]/20 border-t-[#1B4332] animate-spin" />
         </div>
-        <p className="text-muted-foreground font-display text-lg animate-pulse">Gathering plot details...</p>
+        <p className="text-muted-foreground font-display text-lg animate-pulse">ArDhiflex is gathering plot details...</p>
       </div>
     );
   }
@@ -83,14 +83,14 @@ export function PropertyDetailPage() {
           <MapPin className="h-12 w-12" />
         </div>
         <h1 className="text-3xl font-display font-bold">Property not found</h1>
-        <p className="text-muted-foreground max-w-md mx-auto">This listing might have been removed or the link is incorrect.</p>
+        <p className="text-muted-foreground max-w-md mx-auto">This listing might have been removed or the link is incorrect in the ArDhiflex system.</p>
         <Button asChild className="bg-[#1B4332] rounded-xl px-8 h-12"><Link to="/properties">Back to Marketplace</Link></Button>
       </div>
     );
   }
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-10"
@@ -112,9 +112,9 @@ export function PropertyDetailPage() {
             </div>
           </div>
           <div className="flex gap-3">
-            <Button 
-              variant="outline" 
-              size="lg" 
+            <Button
+              variant="outline"
+              size="lg"
               onClick={handleShare}
               className="rounded-2xl border-border hover:bg-secondary transition-all"
             >
@@ -178,7 +178,7 @@ export function PropertyDetailPage() {
           </div>
         </div>
         <div className="relative">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="sticky top-28"
@@ -218,7 +218,7 @@ export function PropertyDetailPage() {
                       <DialogHeader className="mb-4">
                         <DialogTitle className="text-2xl font-display font-bold">Express Interest</DialogTitle>
                         <DialogDescription className="text-muted-foreground">
-                          Send a direct inquiry for <span className="font-bold text-foreground">{property.title}</span>.
+                          Send a direct inquiry for <span className="font-bold text-foreground">{property.title}</span> via ArDhiflex.
                         </DialogDescription>
                       </DialogHeader>
                       <form onSubmit={handleInquiry} className="space-y-5">
@@ -267,7 +267,7 @@ export function PropertyDetailPage() {
                   </Button>
                 </div>
                 <div className="text-center">
-                  <p className="text-xs text-muted-foreground">Average response time: &lt; 24 hours</p>
+                  <p className="text-xs text-muted-foreground">ArDhiflex agents usually respond &lt; 24 hours</p>
                 </div>
               </CardContent>
             </Card>

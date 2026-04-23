@@ -32,7 +32,7 @@ export function Navbar() {
                   <MapPin className="h-5 w-5 text-white" />
                 </div>
                 <span className="text-xl font-display font-bold tracking-tight text-foreground">
-                  Ardhi<span className="text-[#D4A373]">Haven</span>
+                  ArDhi<span className="text-[#D4A373]">flex</span>
                 </span>
               </Link>
             </motion.div>
@@ -53,7 +53,7 @@ export function Navbar() {
                   >
                     {link.label}
                     {pathname === link.path && (
-                      <motion.div 
+                      <motion.div
                         layoutId="nav-underline"
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1B4332] rounded-full"
                       />
@@ -96,7 +96,7 @@ export function Navbar() {
                         <div className="h-8 w-8 rounded-lg bg-[#1B4332] flex items-center justify-center">
                           <MapPin className="h-4 w-4 text-white" />
                         </div>
-                        <span className="font-display font-bold">ArdhiHaven</span>
+                        <span className="font-display font-bold text-foreground">ArDhi<span className="text-[#D4A373]">flex</span></span>
                       </div>
                     </SheetTitle>
                   </SheetHeader>
@@ -108,8 +108,8 @@ export function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={cn(
                           "flex items-center gap-4 px-4 py-3 rounded-2xl text-lg font-medium transition-all",
-                          pathname === link.path 
-                            ? "bg-[#1B4332]/10 text-[#1B4332]" 
+                          pathname === link.path
+                            ? "bg-[#1B4332]/10 text-[#1B4332]"
                             : "text-muted-foreground hover:bg-secondary"
                         )}
                       >

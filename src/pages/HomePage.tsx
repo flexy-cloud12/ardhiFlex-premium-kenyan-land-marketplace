@@ -61,7 +61,7 @@ export function HomePage() {
               Secure Your Future with <span className="text-[#D4A373] italic">Premium Kenyan Land</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-light leading-relaxed">
-              Verified titles, breathtaking locations, and hassle-free transactions for locals and the global diaspora.
+              ArDhiflex provides verified titles, breathtaking locations, and hassle-free transactions for locals and the global diaspora.
             </p>
             <form onSubmit={handleSearch} className="max-w-2xl mx-auto mt-12">
               <div className="flex items-center bg-white rounded-2xl p-2 shadow-2xl border-4 border-white/10 group focus-within:ring-4 focus-within:ring-[#D4A373]/30 transition-all">
@@ -80,7 +80,7 @@ export function HomePage() {
               </div>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 {["Tigoni", "Diani Beach", "Kajiado", "Naivasha"].map(tag => (
-                  <button 
+                  <button
                     key={tag}
                     type="button"
                     onClick={() => setSearchQuery(tag)}
@@ -103,10 +103,10 @@ export function HomePage() {
           </div>
           <div className="flex gap-4">
              {properties?.length === 0 && (
-                <Button 
-                  onClick={handleSeed} 
+                <Button
+                  onClick={handleSeed}
                   disabled={isSeeding}
-                  variant="outline" 
+                  variant="outline"
                   className="border-dashed border-2 border-[#D4A373] text-[#D4A373] hover:bg-[#D4A373]/10"
                 >
                   {isSeeding ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
@@ -148,16 +148,16 @@ export function HomePage() {
       {/* Trust Section */}
       <section className="bg-secondary/40 py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20">
-          <h2 className="text-display text-4xl font-display font-bold mb-6 tracking-tight">Why Invest with ArdhiHaven?</h2>
+          <h2 className="text-display text-4xl font-display font-bold mb-6 tracking-tight">Why Invest with ArDhiflex?</h2>
           <p className="text-muted-foreground text-xl max-w-3xl mx-auto font-light">We provide the layer of trust and transparency needed for seamless property ownership in the Kenyan market.</p>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
           {[
             { icon: ShieldCheck, title: "100% Verified Titles", desc: "Every plot is cross-checked with the Ministry of Lands and local authorities before appearing on our platform." },
             { icon: TrendingUp, title: "Investment Hotspots", desc: "We focus on high-growth corridors like Kiambu and Naivasha, ensuring maximum ROI for long-term investors." },
-            { icon: Users, title: "Diaspora Support", desc: "Dedicated team for Kenyans abroad with virtual site visits, secure payment portals, and remote legal handling." }
+            { icon: Users, title: "Diaspora Support", desc: "ArDhiflex offers dedicated support for Kenyans abroad with virtual site visits and secure remote legal handling." }
           ].map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={idx}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
