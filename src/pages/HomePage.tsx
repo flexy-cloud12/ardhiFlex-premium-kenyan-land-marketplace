@@ -1,149 +1,102 @@
-// Home page of the app, Currently a demo page for demonstration.
-// Please rewrite this file to implement your own logic. Do not replace or delete it, simply rewrite this HomePage.tsx file.
-import { useEffect, useState, useMemo } from 'react'
-import { Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/ThemeToggle'
-import { Toaster, toast } from '@/components/ui/sonner'
-
-// Convex Auth block
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { SignInForm } from "../components/SignInForm";
-import { SignOutButton } from "../components/SignOutButton";
-import { TemplateDemo, HAS_TEMPLATE_DEMO } from '@/components/TemplateDemo';
-
-//import { useQuery, useMutation } from 'convex/react';
-//import { api } from '@convex/_generated/api';
-
-// Timer store: independent slice with a clear, minimal API, for demonstration
-function formatDuration(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
-
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, MapPin, ShieldCheck, TrendingUp, Users } from "lucide-react";
+import { mockProperties } from "@/lib/mockData";
+import { PropertyCard } from "@/components/PropertyCard";
+import { Link } from "react-router-dom";
 export function HomePage() {
-  // Select only what is needed to avoid unnecessary re-renders
-  const [coins, setCoins] = useState(0)
-  const [isRunning, setIsRunning] = useState(false)
-  const [startedAt, setStartedAt] = useState<number | null>(null)
-  const [elapsedMs, setElapsedMs] = useState(0)
-
-  useEffect(() => {
-    if (!isRunning || startedAt === null) return
-
-    const t = setInterval(() => {
-      setElapsedMs(Date.now() - startedAt)
-    }, 250)
-
-    return () => clearInterval(t)
-  }, [isRunning, startedAt])
-
-  const formatted = useMemo(() => formatDuration(elapsedMs), [elapsedMs])
-
-  const onPleaseWait = () => {
-    setCoins((c) => c + 1)
-
-    if (!isRunning) {
-      // Resume from the current elapsed time
-      setStartedAt(Date.now() - elapsedMs)
-      setIsRunning(true)
-      toast.success('Building your app…', {
-        description: "Hang tight, we're setting everything up.",
-      })
-      return
-    } 
-
-      setIsRunning(false)
-      toast.info('Taking a short pause', {
-        description: 'We\'ll continue shortly.',
-      })
-  }
-
-  const onReset = () => {
-    setCoins(0)
-    setIsRunning(false)
-    setStartedAt(null)
-    setElapsedMs(0)
-    toast('Reset complete')
-  }
-
-  const onAddCoin = () => {
-    setCoins((c) => c + 1)
-    toast('Coin added')
-  }
-
-  const loggedInUser = useQuery(api.auth.loggedInUser)
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-4 overflow-hidden relative">
-        <ThemeToggle />
-        <SignOutButton />
-        <div className="absolute inset-0 bg-gradient-rainbow opacity-10 dark:opacity-20 pointer-events-none" />
-        <div className="text-center space-y-8 relative z-10 animate-fade-in w-full">
-          <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-primary floating">
-              <Sparkles className="w-8 h-8 text-white rotating" />
-            </div>
-          </div>
-          <Authenticated>
-            <p className="text-xl text-secondary">
-              Welcome back, {loggedInUser?.email ?? "friend"}!
-            </p>
-          </Authenticated>
-          <Unauthenticated>
-            <p className="text-xl text-secondary">Sign in to get started</p>
-          </Unauthenticated>
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-balance leading-tight">
-            Creating your <span className="text-gradient">app</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto text-pretty">
-            Your application would be ready soon.
-          </p>
-          {HAS_TEMPLATE_DEMO ? (
-            <div className="max-w-5xl mx-auto text-left">
-              <TemplateDemo />
-            </div>
-          ) : (
-            <>
-              <div className="flex justify-center gap-4">
-                <Button 
-                  size="lg"
-                  onClick={onPleaseWait}
-                  className="btn-gradient px-8 py-4 text-lg font-semibold hover:-translate-y-0.5 transition-all duration-200"
-                  aria-live="polite"
-                >
-                  Please Wait
-                </Button>
-              </div>
-              <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-                <div>
-                  Time elapsed: <span className="font-medium tabular-nums text-foreground">{formatted}</span>
-                </div>
-                <div>
-                  Coins: <span className="font-medium tabular-nums text-foreground">{coins}</span>
-                </div>
-              </div>
-              <div className="flex justify-center gap-2">
-                <Button variant="outline" size="sm" onClick={onReset}>
-                  Reset
-                </Button>
-                <Button variant="outline" size="sm" onClick={onAddCoin}>
-                  Add Coin
-                </Button>
-              </div>
-            </>
-          )}
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=80&w=2000" 
+            className="w-full h-full object-cover"
+            alt="Kenyan Landscape"
+          />
+          <div className="absolute inset-0 bg-black/50" />
         </div>
-        <Unauthenticated>
-          <SignInForm />
-        </Unauthenticated>
-        <footer className="absolute bottom-8 text-center text-muted-foreground/80">
-          <p>Built with love at Andromo</p>
-        </footer>
-        <Toaster richColors closeButton />
-      </div>
-  )
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <h1 className="text-display max-w-4xl mx-auto font-display font-bold">
+              Secure Your Future with <span className="text-[#D4A373]">Premium Kenyan Land</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-light">
+              Verified titles, breathtaking locations, and hassle-free transactions for locals and the diaspora.
+            </p>
+            <div className="max-w-2xl mx-auto mt-12">
+              <div className="flex items-center bg-white rounded-2xl p-2 shadow-2xl">
+                <div className="flex-1 flex items-center px-4 text-gray-500 border-r border-gray-200">
+                  <MapPin className="h-5 w-5 mr-2 text-[#1B4332]" />
+                  <Input 
+                    placeholder="Where would you like to buy?" 
+                    className="border-none focus-visible:ring-0 text-gray-900 placeholder:text-gray-400"
+                  />
+                </div>
+                <Button className="bg-[#1B4332] hover:bg-[#1B4332]/90 rounded-xl px-8 h-12">
+                  <Search className="h-5 w-5 mr-2" /> Search
+                </Button>
+              </div>
+              <p className="mt-4 text-sm text-white/80">Try: "Tigoni", "Diani Beach", "Kajiado"</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+      {/* Featured Lands */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div className="flex items-end justify-between mb-12">
+          <div className="space-y-4">
+            <h2 className="text-4xl font-display font-bold text-foreground">Featured Land Opportunities</h2>
+            <p className="text-muted-foreground text-lg">Hand-picked premium listings with verified documentation.</p>
+          </div>
+          <Button asChild variant="outline" className="hidden sm:flex border-[#1B4332] text-[#1B4332] hover:bg-[#1B4332] hover:text-white">
+            <Link to="/properties">View All Plots</Link>
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {mockProperties.slice(0, 3).map((property, idx) => (
+            <motion.div
+              key={property.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <PropertyCard property={property} />
+            </motion.div>
+          ))}
+        </div>
+      </section>
+      {/* Trust Section */}
+      <section className="bg-secondary/50 py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Why Invest with ArdhiHaven?</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">We provide the layer of trust and transparency needed for seamless property ownership in Kenya.</p>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12">
+          {[
+            { icon: ShieldCheck, title: "100% Verified", desc: "Every title deed is cross-checked with the Ministry of Lands before listing." },
+            { icon: TrendingUp, title: "High Appreciation", desc: "We list properties in high-growth corridors ensuring maximum ROI for investors." },
+            { icon: Users, title: "Diaspora Friendly", desc: "Dedicated support for Kenyans abroad with virtual tours and remote legal assistance." }
+          ].map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center space-y-4 p-8 bg-background rounded-3xl shadow-sm border border-border/50">
+              <div className="h-16 w-16 rounded-2xl bg-[#1B4332]/5 flex items-center justify-center text-[#1B4332]">
+                <item.icon className="h-8 w-8" />
+              </div>
+              <h3 className="text-xl font-bold">{item.title}</h3>
+              <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
 }

@@ -16,20 +16,21 @@ import '@/index.css'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { HomePage } from '@/pages/HomePage'
 import { AboutPage } from '@/pages/AboutPage'
-
+import { PropertiesPage } from '@/pages/PropertiesPage'
+import { PropertyDetailPage } from '@/pages/PropertyDetailPage'
 const queryClient = new QueryClient();
-
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <RouteErrorBoundary />,
     children: [
       { path: "/", element: <HomePage /> },
+      { path: "/properties", element: <PropertiesPage /> },
+      { path: "/properties/:id", element: <PropertyDetailPage /> },
       { path: "/about", element: <AboutPage /> },
     ],
   },
 ]);
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

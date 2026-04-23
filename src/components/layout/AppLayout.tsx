@@ -1,35 +1,17 @@
-/*
-Wraps children in a sidebar layout. Don't use this if you don't need a sidebar.
-Supports both direct children and React Router Outlet (layout route) usage.
-*/
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-
-type AppLayoutProps = {
-  children?: React.ReactNode;
-  container?: boolean;
-  className?: string;
-  contentClassName?: string;
-};
-
-export function AppLayout({ children, container = false, className, contentClassName }: AppLayoutProps): JSX.Element {
-  const content = children ?? <Outlet />;
-
+import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
+import { Toaster } from "@/components/ui/sonner";
+export function AppLayout(): JSX.Element {
   return (
-    <SidebarProvider defaultOpen={false}>
-      <AppSidebar />
-      <SidebarInset className={className}>
-        <div className="absolute left-2 top-2 z-20">
-          <SidebarTrigger />
-        </div>
-        {container ? (
-          <div className={"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 lg:py-12" + (contentClassName ? ` ${contentClassName}` : "")}>{content}</div>
-        ) : (
-          content
-        )}
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="relative min-h-screen flex flex-col font-sans">
+      <Navbar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+      <Toaster richColors closeButton position="top-center" />
+    </div>
   );
 }

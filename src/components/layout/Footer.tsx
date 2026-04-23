@@ -12,11 +12,11 @@ export function Footer() {
                 <MapPin className="h-5 w-5 text-[#1B4332]" />
               </div>
               <span className="text-xl font-display font-bold tracking-tight">
-                ArDhiflex
+                ArdhiHaven
               </span>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed">
-              Kenya's premium land marketplace. We connect you with verified, high-value land investments across the country using our flexible search platform.
+              Kenya's premium land marketplace. We connect you with verified, high-value land investments across the country.
             </p>
           </div>
           <div>
@@ -33,7 +33,7 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-white/70">
               <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Westlands, Nairobi</li>
               <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +254 700 000 000</li>
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@ardhiflex.co.ke</li>
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@ardhihaven.co.ke</li>
             </ul>
           </div>
           <div>
@@ -52,7 +52,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/50">
-          <p>© {new Date().getFullYear()} ArDhiflex Marketplace. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} ArdhiHaven Marketplace. All rights reserved.</p>
         </div>
       </div>
     </footer>
