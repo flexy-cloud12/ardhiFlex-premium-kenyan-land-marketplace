@@ -1,6 +1,6 @@
 # Ardhi Haven
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/flexy-cloud12/ardhiFlex-premium-kenyan-land-marketplace)
 
 A modern full-stack web application built with React, Convex, and Cloudflare Workers. Features user authentication (email/password + anonymous), secure file upload/storage, and a responsive UI with dark mode support.
 
@@ -92,7 +92,7 @@ Deploy to Cloudflare Pages/Workers in minutes:
 
 Or use the one-click deploy:
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/flexy-cloud12/ardhiFlex-premium-kenyan-land-marketplace)
 
 **Custom Domain**: Update `wrangler.jsonc` and run `wrangler deploy`.
 
