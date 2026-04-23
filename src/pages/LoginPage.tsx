@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SignInForm } from "@/components/SignInForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
+import { useConvexAuth } from "convex/react";
 export function LoginPage() {
+  const { isAuthenticated, isLoading } = useConvexAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, isLoading, navigate]);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-background">
       <div className="grid lg:grid-cols-2 min-h-screen">
