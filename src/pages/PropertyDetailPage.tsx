@@ -1,13 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { mockProperties } from "@/lib/mockData";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { CheckCircle2, MapPin, Ruler, Share2, Heart, ShieldCheck, ArrowLeft } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { CheckCircle2, MapPin, Ruler, Share2, Heart, ShieldCheck, ArrowLeft, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 export function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const property = mockProperties.find((p) => p.id === id);
+  const property = useQuery(api.properties.getById, { id: id as Id<"properties"> });
+  const isFav = useQuery(api.favorites.isFavorite, { propertyId: id as Id<"properties"> });
+  const toggleFav = useMutation(api.favorites.toggleFavorite);
+  const submitInquiry = useMutation(api.inquiries.submitInquiry);
+  const [inquiryName, setInquiryName] = useState("");
+  const [inquiryEmail, setInquiryEmail] = useState("");
+  const [inquiryMsg, setInquiryMsg] = useState("I am interested in this property. Please provide more details.");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleToggleFavorite = async () => {
+    try {
+      const added = await toggleFav({ propertyId: id as Id<"properties"> });
+      toast.success(added ? "Added to favorites" : "Removed from favorites");
+    } catch (e) {
+      toast.error("Please sign in to save properties");
+    }
+  };
+  const handleInquiry = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await submitInquiry({
+        propertyId: id as Id<"properties">,
+        name: inquiryName,
+        email: inquiryEmail,
+        message: inquiryMsg,
+      });
+      toast.success("Inquiry sent successfully! An agent will contact you soon.");
+      setOpenDialog(false);
+    } catch (e) {
+      toast.error("Failed to send inquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  if (property === undefined) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-32 flex flex-col items-center gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-[#1B4332]" />
+        <p className="text-muted-foreground">Loading property details...</p>
+      </div>
+    );
+  }
   if (!property) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
@@ -26,7 +75,14 @@ export function PropertyDetailPage() {
           <h1 className="text-3xl md:text-4xl font-display font-bold">{property.title}</h1>
           <div className="flex gap-2">
             <Button variant="outline" size="icon"><Share2 className="h-4 w-4" /></Button>
-            <Button variant="outline" size="icon"><Heart className="h-4 w-4" /></Button>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={handleToggleFavorite}
+              className={cn(isFav && "text-red-500 bg-red-50 border-red-200")}
+            >
+              <Heart className={cn("h-4 w-4", isFav && "fill-current")} />
+            </Button>
           </div>
         </div>
         <div className="flex items-center gap-4 mt-2 text-muted-foreground">
@@ -40,7 +96,6 @@ export function PropertyDetailPage() {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Left: Gallery & Content */}
         <div className="lg:col-span-2 space-y-12">
           <Carousel className="w-full">
             <CarouselContent>
@@ -73,7 +128,6 @@ export function PropertyDetailPage() {
             </div>
           </div>
         </div>
-        {/* Right: Sticky Card */}
         <div className="relative">
           <Card className="sticky top-24 border-border/50 shadow-xl rounded-3xl overflow-hidden">
             <div className="bg-[#1B4332] p-6 text-white text-center">
@@ -90,18 +144,54 @@ export function PropertyDetailPage() {
                   <span className="text-muted-foreground">Total Area</span>
                   <span className="font-semibold">{property.size}</span>
                 </div>
-                <div className="flex justify-between text-sm py-2 border-b">
-                  <span className="text-muted-foreground">Type</span>
-                  <span className="font-semibold">Agricultural/Residential</span>
-                </div>
               </div>
-              <div className="space-y-3">
-                <Button className="w-full h-12 bg-[#1B4332] hover:bg-[#1B4332]/90 text-lg">Inquire Now</Button>
-                <Button variant="outline" className="w-full h-12">Download Brochure</Button>
-              </div>
-              <p className="text-xs text-center text-muted-foreground">
-                By clicking "Inquire Now", you agree to share your contact details with our verified agents.
-              </p>
+              <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                <DialogTrigger asChild>
+                  <Button className="w-full h-12 bg-[#1B4332] hover:bg-[#1B4332]/90 text-lg">Inquire Now</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md rounded-3xl">
+                  <DialogHeader>
+                    <DialogTitle>Send Inquiry</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleInquiry} className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Input 
+                        placeholder="Your Name" 
+                        required 
+                        value={inquiryName}
+                        onChange={(e) => setInquiryName(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Input 
+                        type="email" 
+                        placeholder="Email Address" 
+                        required 
+                        value={inquiryEmail}
+                        onChange={(e) => setInquiryEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Textarea 
+                        placeholder="Your Message" 
+                        required 
+                        rows={4} 
+                        value={inquiryMsg}
+                        onChange={(e) => setInquiryMsg(e.target.value)}
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-[#1B4332]" 
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                      Submit Inquiry
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" className="w-full h-12">Download Brochure</Button>
             </CardContent>
           </Card>
         </div>

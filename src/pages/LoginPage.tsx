@@ -1,24 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SignInForm } from "@/components/SignInForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import { useConvexAuth } from "convex/react";
 export function LoginPage() {
-  const { isAuthenticated, isLoading } = useConvexAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, isLoading, navigate]);
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-      </div>
-    );
-  }
   return (
     <div className="min-h-screen bg-background">
       <div className="grid lg:grid-cols-2 min-h-screen">
@@ -38,7 +23,7 @@ export function LoginPage() {
             >
               <h2 className="text-4xl font-display font-bold mb-4">Invest in the Heart of Africa</h2>
               <p className="text-lg text-white/80 max-w-md">
-                Join ArDhiflex to track your favorite plots and connect with verified land agents across Kenya.
+                Join ArdhiHaven to track your favorite plots and connect with verified land agents across Kenya.
               </p>
             </motion.div>
           </div>
@@ -52,7 +37,7 @@ export function LoginPage() {
                   <MapPin className="h-6 w-6 text-white" />
                 </div>
                 <span className="text-2xl font-display font-bold tracking-tight">
-                  ArDhi<span className="text-[#D4A373]">flex</span>
+                  Ardhi<span className="text-[#D4A373]">Haven</span>
                 </span>
               </Link>
               <h1 className="text-3xl font-display font-bold text-foreground">Welcome Back</h1>

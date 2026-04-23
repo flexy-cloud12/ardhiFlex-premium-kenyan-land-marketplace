@@ -18,6 +18,8 @@ import { HomePage } from '@/pages/HomePage'
 import { AboutPage } from '@/pages/AboutPage'
 import { PropertiesPage } from '@/pages/PropertiesPage'
 import { PropertyDetailPage } from '@/pages/PropertyDetailPage'
+import { LoginPage } from '@/pages/LoginPage'
+import { SavedPropertiesPage } from '@/pages/SavedPropertiesPage'
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -28,8 +30,14 @@ const router = createBrowserRouter([
       { path: "/properties", element: <PropertiesPage /> },
       { path: "/properties/:id", element: <PropertyDetailPage /> },
       { path: "/about", element: <AboutPage /> },
+      { path: "/saved", element: <SavedPropertiesPage /> },
     ],
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+    errorElement: <RouteErrorBoundary />,
+  }
 ]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

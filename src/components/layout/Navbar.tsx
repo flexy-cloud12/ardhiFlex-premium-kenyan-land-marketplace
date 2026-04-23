@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SignOutButton } from "@/components/SignOutButton";
 import { Authenticated, Unauthenticated } from "convex/react";
-import { MapPin, Search } from "lucide-react";
+import { MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export function Navbar() {
   const { pathname } = useLocation();
   const navLinks = [
     { label: "Home", path: "/" },
     { label: "Buy Land", path: "/properties" },
+    { label: "Saved", path: "/saved" },
     { label: "About", path: "/about" },
   ];
   return (
@@ -42,14 +43,19 @@ export function Navbar() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <ThemeToggle className="static" />
               <Authenticated>
+                <Link to="/saved" className="mr-2">
+                   <Button variant="ghost" size="icon" className="rounded-full">
+                     <Heart className="h-5 w-5" />
+                   </Button>
+                </Link>
                 <SignOutButton />
               </Authenticated>
               <Unauthenticated>
                 <Button asChild variant="default" className="bg-[#1B4332] hover:bg-[#1B4332]/90">
-                  <Link to="/">Sign In</Link>
+                  <Link to="/login">Sign In</Link>
                 </Button>
               </Unauthenticated>
             </div>

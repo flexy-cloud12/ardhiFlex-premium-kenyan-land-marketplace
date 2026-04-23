@@ -2,25 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Ruler, ShieldCheck } from "lucide-react";
-import { Property } from "@/lib/mockData";
+import { MapPin, Ruler, ShieldCheck, Heart } from "lucide-react";
+import { Doc } from "@convex/_generated/dataModel";
 import { motion } from "framer-motion";
+import { useQuery } from "convex/react";
+import { api } from "@convex/_generated/api";
+import { cn } from "@/lib/utils";
 interface PropertyCardProps {
-  property: Property;
+  property: Doc<"properties">;
 }
 export function PropertyCard({ property }: PropertyCardProps) {
+  const isFav = useQuery(api.favorites.isFavorite, { propertyId: property._id });
   return (
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
       className="group"
     >
-      <Link to={`/properties/${property.id}`}>
+      <Link to={`/properties/${property._id}`}>
         <Card className="overflow-hidden border-border/50 shadow-soft hover:shadow-lg transition-all rounded-3xl bg-card">
           <div className="relative aspect-[4/3] overflow-hidden">
-            <img 
-              src={property.images[0]} 
-              alt={property.title} 
+            <img
+              src={property.images[0]}
+              alt={property.title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             {property.verified && (
@@ -28,7 +32,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
                 <ShieldCheck className="h-3 w-3" /> Verified
               </Badge>
             )}
-            <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm">
+            {isFav && (
+              <div className="absolute top-4 right-4 bg-white/90 p-2 rounded-full text-red-500 shadow-sm backdrop-blur-sm">
+                <Heart className="h-4 w-4 fill-current" />
+              </div>
+            )}
+            <div className={cn(
+              "absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-xs backdrop-blur-sm",
+              isFav && "right-14"
+            )}>
               {property.region}
             </div>
           </div>

@@ -1,19 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "convex/react";
+import { api } from "@convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, MapPin, ShieldCheck, TrendingUp, Users } from "lucide-react";
-import { mockProperties } from "@/lib/mockData";
 import { PropertyCard } from "@/components/PropertyCard";
 import { Link } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 export function HomePage() {
+  const properties = useQuery(api.properties.get);
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=80&w=2000" 
+          <img
+            src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=80&w=2000"
             className="w-full h-full object-cover"
             alt="Kenyan Landscape"
           />
@@ -36,8 +39,8 @@ export function HomePage() {
               <div className="flex items-center bg-white rounded-2xl p-2 shadow-2xl">
                 <div className="flex-1 flex items-center px-4 text-gray-500 border-r border-gray-200">
                   <MapPin className="h-5 w-5 mr-2 text-[#1B4332]" />
-                  <Input 
-                    placeholder="Where would you like to buy?" 
+                  <Input
+                    placeholder="Where would you like to buy?"
                     className="border-none focus-visible:ring-0 text-gray-900 placeholder:text-gray-400"
                   />
                 </div>
@@ -62,17 +65,23 @@ export function HomePage() {
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockProperties.slice(0, 3).map((property, idx) => (
-            <motion.div
-              key={property.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <PropertyCard property={property} />
-            </motion.div>
-          ))}
+          {properties === undefined ? (
+            [1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-[400px] w-full rounded-3xl" />
+            ))
+          ) : (
+            properties.slice(0, 3).map((property, idx) => (
+              <motion.div
+                key={property._id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <PropertyCard property={property} />
+              </motion.div>
+            ))
+          )}
         </div>
       </section>
       {/* Trust Section */}
